@@ -1,8 +1,11 @@
 package version1;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Remote {
 
-    public DogDoor dogDoor;
+    private DogDoor dogDoor;
 
     public Remote(DogDoor dogDoor)
     {
@@ -11,9 +14,20 @@ public class Remote {
 
     public void pressButton(){
         System.out.println("Pressing the remote control button...");
-        if (dogDoor.isOpen())
+        if (dogDoor.isOpen()) {
             dogDoor.close();
-        else
+        }
+        else {
             dogDoor.open();
+            final Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    dogDoor.close();
+                    timer.cancel();
+                }
+            }, 5000);
+
+        }
     }
 }
