@@ -1,6 +1,9 @@
 package ProductionDogDoor;
 
+import java.util.List;
+
 public class BarkRecognizer {
+
 
     private DogDoor dogDoor;
 
@@ -8,12 +11,18 @@ public class BarkRecognizer {
         this.dogDoor = dogDoor;
     }
 
-    public void recognize(String bark){
-        System.out.println(" BarkRecgonizer heard a :" + bark);
+    public void recognize(Bark barkObj){
+        System.out.println(" BarkRecgonizer heard a :" + barkObj.getSound());
 
-        if (bark.equals("woof")){
-            dogDoor.open();
+        List<Bark> allowedbarks = dogDoor.getAllowedBarks();
+
+        for (Bark allowedBark: allowedbarks){
+            if (allowedBark.equals(barkObj)) {
+                dogDoor.open();
+                return;
+            }
         }
 
+        System.out.println("This dog is not allowed");
     }
 }
